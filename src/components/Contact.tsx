@@ -28,7 +28,7 @@ export function ContactSection() {
       id="contacto"
       className="py-20 md:py-32 bg-secondary/30 px-4 md:px-6"
     >
-      <div className="container">
+      <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-balance">
             ¿Listo para comenzar?

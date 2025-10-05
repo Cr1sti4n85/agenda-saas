@@ -4,7 +4,7 @@ import { Calendar, Clock, Users } from "lucide-react";
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden py-20 md:py-32 px-4 md:px-6">
-      <div className="container">
+      <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <div className="inline-block">

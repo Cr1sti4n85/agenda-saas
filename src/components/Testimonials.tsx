@@ -4,7 +4,6 @@ import Image from "next/image";
 import Person1 from "@/assets/person1.jpg";
 import Person2 from "@/assets/person2.jpg";
 import Person3 from "@/assets/person3.jpg";
-import test from "node:test";
 
 const testimonials = [
   {
@@ -36,7 +35,7 @@ const testimonials = [
 export function TestimonialsSection() {
   return (
     <section id="opiniones" className="py-20 md:py-32 px-4 md:px-6">
-      <div className="container">
+      <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-balance">
             Profesionales que confían en nosotros

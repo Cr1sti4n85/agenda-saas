@@ -4,7 +4,7 @@ import { Calendar } from "lucide-react";
 export function Footer() {
   return (
     <footer className="border-t border-border/40 bg-background">
-      <div className="container py-12 md:py-16 px-4 md:px-6">
+      <div className="container mx-auto py-12 md:py-16 px-4 md:px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
