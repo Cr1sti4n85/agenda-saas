@@ -15,16 +15,34 @@ export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorText, setErrorText] = useState("");
   const router = useRouter();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+
+    const response = await fetch("/api/signin", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+
+    if (!data.success) {
+      setErrorText("Credenciales inválidas");
+    } else {
+      setErrorText("");
       router.push("/dashboard");
-    }, 2000);
+    }
+
+    setIsLoading(false);
   }
 
   return (
@@ -38,6 +56,7 @@ export function LoginForm() {
           type="email"
           placeholder="tu@email.com"
           value={email}
+          name="email"
           onChange={(e) => setEmail(e.target.value)}
           required
           className="h-11"
@@ -57,6 +76,7 @@ export function LoginForm() {
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             value={password}
+            name="password"
             onChange={(e) => setPassword(e.target.value)}
             required
             className="h-11 pr-10"
@@ -82,6 +102,7 @@ export function LoginForm() {
           "Iniciar sesión"
         )}
       </Button>
+      {errorText && <p className="text-red-500 text-sm">{errorText}</p>}
     </form>
   );
 }
