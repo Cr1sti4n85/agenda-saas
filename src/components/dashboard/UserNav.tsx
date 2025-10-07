@@ -12,7 +12,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { signoutAction } from "@/server/auth/auth";
 
 type UserNavProps = {
   name: string;
@@ -20,16 +20,17 @@ type UserNavProps = {
 };
 
 export function UserNav({ name, email }: UserNavProps) {
-  const router = useRouter();
+  // const router = useRouter();
   const handleLogout = async () => {
-    const response = await fetch("/api/logout", {
-      method: "POST",
-    });
-    const data = await response.json();
-
-    if (data.success) {
-      router.push("/");
-    }
+    // const response = await fetch("/api/logout", {
+    //   method: "POST",
+    // });
+    // const data = await response.json();
+    // if (data.success) {
+    //   router.push("/");
+    // }
+    // SERVER ACTION
+    await signoutAction();
   };
 
   return (

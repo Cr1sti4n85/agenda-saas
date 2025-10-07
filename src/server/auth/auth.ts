@@ -22,3 +22,10 @@ export const signinAction = async (email: string, password: string) => {
 
   redirect("/dashboard");
 };
+
+export const signoutAction = async () => {
+  const cookiesHandler = await cookies();
+  cookiesHandler.delete("isLoggedIn");
+  cookiesHandler.delete("user");
+  redirect("/");
+};

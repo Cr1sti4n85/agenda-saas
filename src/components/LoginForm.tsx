@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 // import { useRouter } from "next/navigation";
 import { signinAction } from "@/server/auth/auth";
 
@@ -23,9 +24,9 @@ export function LoginForm() {
     event.preventDefault();
     setIsLoading(true);
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
+    // const formData = new FormData();
+    // formData.append("email", email);
+    // formData.append("password", password);
 
     //   const response = await fetch("/api/signin", {
     //     method: "POST",
@@ -47,7 +48,13 @@ export function LoginForm() {
 
     //SERVER ACTIONS
     await signinAction(email, password);
-    setErrorText("Credenciales inválidas");
+    toast.error("Error al iniciar sesión", {
+      description: "Credenciales no válidas",
+      style: {
+        background: "red",
+        color: "white",
+      },
+    });
     setIsLoading(false);
   }
 
