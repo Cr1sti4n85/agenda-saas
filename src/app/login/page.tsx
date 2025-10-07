@@ -1,17 +1,7 @@
 import { LoginForm } from "@/components/LoginForm";
 import { Phone } from "lucide-react";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 export default async function LoginPage() {
-  const cookiesHanlder = await cookies();
-
-  const isLoggedIn = cookiesHanlder.get("isLoggedIn");
-
-  if (isLoggedIn) {
-    redirect("/dashboard");
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center p-8 bg-background">
       <div className="w-full max-w-md">

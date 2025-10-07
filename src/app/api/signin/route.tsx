@@ -14,6 +14,12 @@ export async function POST(req: NextRequest) {
   //Set cookies
   const cookiesHandler = await cookies();
   cookiesHandler.set("isLoggedIn", "true");
+  const user = {
+    name: "cristian",
+    email: "cris@gmail.com",
+    avatar: "/avatar1.png",
+  };
+  cookiesHandler.set("user", JSON.stringify(user));
 
   return NextResponse.json({ success: true });
 }
