@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { signinAction } from "@/server/auth/auth";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +17,7 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
-  const router = useRouter();
+  // const router = useRouter();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,22 +27,27 @@ export function LoginForm() {
     formData.append("email", email);
     formData.append("password", password);
 
-    const response = await fetch("/api/signin", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
+    //   const response = await fetch("/api/signin", {
+    //     method: "POST",
+    //     body: JSON.stringify({ email, password }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
+    //   const data = await response.json();
 
-    if (!data.success) {
-      setErrorText("Credenciales inválidas");
-    } else {
-      setErrorText("");
-      router.push("/dashboard");
-    }
+    //   if (!data.success) {
+    //     setErrorText("Credenciales inválidas");
+    //   } else {
+    //     setErrorText("");
+    //     router.push("/dashboard");
+    //   }
 
+    //   setIsLoading(false);
+
+    //SERVER ACTIONS
+    await signinAction(email, password);
+    setErrorText("Credenciales inválidas");
     setIsLoading(false);
   }
 
