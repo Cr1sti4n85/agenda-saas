@@ -1,26 +1,8 @@
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { updateSession } from "./utils/supabase/middleware";
 
 export default async function middleware(request: NextRequest) {
-  const nextReponse = NextResponse.next({ request });
-
-  const cookiesHanlder = await cookies();
-
-  const isLoggedIn = cookiesHanlder.get("isLoggedIn");
-
-  if (request.nextUrl.pathname.startsWith("/dashboard") && !isLoggedIn) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login"; //modify the pathname to login
-    return NextResponse.redirect(url);
-  }
-
-  if (request.nextUrl.pathname.startsWith("/login") && isLoggedIn) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/dashboard"; //modify the pathname to login
-    return NextResponse.redirect(url);
-  }
-
-  return nextReponse;
+  return await updateSession(request);
 }
 
 export const config = {

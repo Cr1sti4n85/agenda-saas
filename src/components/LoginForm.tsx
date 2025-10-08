@@ -17,7 +17,6 @@ export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorText, setErrorText] = useState("");
   // const router = useRouter();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -115,7 +114,6 @@ export function LoginForm() {
           "Iniciar sesión"
         )}
       </Button>
-      {errorText && <p className="text-red-500 text-sm">{errorText}</p>}
     </form>
   );
 }
