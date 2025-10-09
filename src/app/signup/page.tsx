@@ -1,8 +1,8 @@
-import { LoginForm } from "@/components/LoginForm";
+import { SignupForm } from "@/components/SignupForm";
 import { Phone } from "lucide-react";
 import Link from "next/link";
 
-export default async function LoginPage() {
+export default async function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-8 bg-background">
       <div className="w-full max-w-md">
@@ -24,15 +24,15 @@ export default async function LoginPage() {
           </p>
         </div>
 
-        <LoginForm />
+        <SignupForm />
 
         <p className="text-center text-sm text-muted-foreground mt-6">
-          ¿No tienes una cuenta?{" "}
+          ¿Ya tienes cuenta?{" "}
           <Link
-            href="/signup"
+            href="/login"
             className="text-foreground font-medium hover:underline"
           >
-            Regístrate gratis
+            Inicia sesión
           </Link>
         </p>
       </div>

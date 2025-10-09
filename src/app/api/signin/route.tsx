@@ -1,25 +1,25 @@
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
-import { signinMock } from "@/app/services/signin";
+// import { cookies } from "next/headers";
+// import { NextRequest, NextResponse } from "next/server";
+// import { signinMock } from "@/app/services/signin";
 
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { email, password } = body;
-  const validCredentials: boolean = signinMock(email, password);
+// export async function POST(req: NextRequest) {
+//   const body = await req.json();
+//   const { email, password } = body;
+//   const validCredentials: boolean = signinMock(email, password);
 
-  if (!validCredentials) {
-    return NextResponse.json({ success: false });
-  }
+//   if (!validCredentials) {
+//     return NextResponse.json({ success: false });
+//   }
 
-  //Set cookies
-  const cookiesHandler = await cookies();
-  cookiesHandler.set("isLoggedIn", "true");
-  const user = {
-    name: "cristian",
-    email: "cris@gmail.com",
-    avatar: "/avatar1.png",
-  };
-  cookiesHandler.set("user", JSON.stringify(user));
+//   //Set cookies
+//   const cookiesHandler = await cookies();
+//   cookiesHandler.set("isLoggedIn", "true");
+//   const user = {
+//     name: "cristian",
+//     email: "cris@gmail.com",
+//     avatar: "/avatar1.png",
+//   };
+//   cookiesHandler.set("user", JSON.stringify(user));
 
-  return NextResponse.json({ success: true });
-}
+//   return NextResponse.json({ success: true });
+// }

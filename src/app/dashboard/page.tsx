@@ -12,8 +12,12 @@ import { SearchNav } from "@/components/dashboard/SearchNav";
 import { UserNav } from "@/components/dashboard/UserNav";
 import { Overview } from "@/components/dashboard/Overview";
 import { RecentContacts } from "@/components/dashboard/RecentContacts";
+import { getCurrentUser } from "@/server/login/actions";
 
 export default async function DashboardPage() {
+  // get user
+  const currentUser = await getCurrentUser();
+
   return (
     <div className="hidden flex-col md:flex">
       <div className="border-b">
@@ -21,7 +25,7 @@ export default async function DashboardPage() {
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             <SearchNav />
-            <UserNav email={"email@email.com"} />
+            <UserNav email={currentUser?.email || "n/a"} />
           </div>
         </div>
       </div>

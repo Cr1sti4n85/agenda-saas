@@ -9,46 +9,20 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
-// import { signinAction } from "@/server/auth/auth";
-import { login } from "@/server/login/actions";
+import { signup } from "@/server/login/actions";
+import { cn } from "@/lib/utils";
 
-export function LoginForm() {
+export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const router = useRouter();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
-
-    // const formData = new FormData();
-    // formData.append("email", email);
-    // formData.append("password", password);
-
-    //   const response = await fetch("/api/signin", {
-    //     method: "POST",
-    //     body: JSON.stringify({ email, password }),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   });
-    //   const data = await response.json();
-
-    //   if (!data.success) {
-    //     setErrorText("Credenciales inválidas");
-    //   } else {
-    //     setErrorText("");
-    //     router.push("/dashboard");
-    //   }
-
-    //   setIsLoading(false);
-
-    //SERVER ACTIONS
-    // await signinAction(email, password);
-    const response = await login(email, password);
+    const response = await signup(email, password);
     toast.error("Error al iniciar sesión", {
       description: response.message,
       style: {
@@ -108,12 +82,57 @@ export function LoginForm() {
           </button>
         </div>
       </div>
+      <div className="space-y-2">
+        <Label
+          htmlFor="password"
+          className="text-sm font-medium text-foreground"
+        >
+          Confirmar contraseña
+        </Label>
+        <div className="relative">
+          <Input
+            id="confirmPassword"
+            type={showPassword ? "text" : "password"}
+            placeholder="••••••••"
+            value={confirmPassword}
+            name="confirmPassword"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            className={cn(
+              "h-11 pr-10",
+              // Cambia el color del borde según si coinciden o no
+              confirmPassword
+                ? confirmPassword === password
+                  ? "border-green-500 focus-visible:ring-green-500/40"
+                  : "border-red-500 focus-visible:ring-red-500/40"
+                : ""
+            )}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {showPassword ? (
+              <EyeOff className="w-5 h-5" />
+            ) : (
+              <Eye className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+      </div>
 
-      <Button type="submit" className="w-full h-11 text-base font-medium">
+      <Button
+        type="submit"
+        className="w-full h-11 text-base font-medium"
+        disabled={
+          (!password && !confirmPassword) || password !== confirmPassword
+        }
+      >
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
-          "Iniciar sesión"
+          "Registrarse"
         )}
       </Button>
     </form>
