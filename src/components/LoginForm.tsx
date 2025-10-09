@@ -10,7 +10,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 // import { useRouter } from "next/navigation";
-import { signinAction } from "@/server/auth/auth";
+// import { signinAction } from "@/server/auth/auth";
+import { login } from "@/server/login/actions";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,7 +47,8 @@ export function LoginForm() {
     //   setIsLoading(false);
 
     //SERVER ACTIONS
-    await signinAction(email, password);
+    // await signinAction(email, password);
+    await login(email, password);
     toast.error("Error al iniciar sesión", {
       description: "Credenciales no válidas",
       style: {

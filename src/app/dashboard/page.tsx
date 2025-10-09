@@ -12,12 +12,8 @@ import { SearchNav } from "@/components/dashboard/SearchNav";
 import { UserNav } from "@/components/dashboard/UserNav";
 import { Overview } from "@/components/dashboard/Overview";
 import { RecentContacts } from "@/components/dashboard/RecentContacts";
-import { cookies } from "next/headers";
 
 export default async function DashboardPage() {
-  const cookiesHandler = await cookies();
-  const user = JSON.parse(cookiesHandler.get("user")?.value || "{}");
-
   return (
     <div className="hidden flex-col md:flex">
       <div className="border-b">
@@ -25,7 +21,7 @@ export default async function DashboardPage() {
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             <SearchNav />
-            <UserNav name={user.name} email={user.email} />
+            <UserNav email={"email@email.com"} />
           </div>
         </div>
       </div>
