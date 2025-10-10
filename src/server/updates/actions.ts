@@ -12,3 +12,27 @@ export const updateName = async (updatedName: string) => {
   });
   revalidatePath("/dashboard/profile", "page");
 };
+
+export const requestResetPassword = async (host: string) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user?.email) {
+    await supabase.auth.resetPasswordForEmail(user?.email, {
+      redirectTo: `${host}/reset-password`,
+    });
+    return true;
+  }
+  return false;
+};
+
+export const updatePassword = async (newPassword: string) => {
+  const supabase = await createClient();
+
+  await supabase.auth.updateUser({
+    password: newPassword,
+  });
+  supabase.auth.signOut();
+};
