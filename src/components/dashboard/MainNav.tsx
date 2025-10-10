@@ -17,7 +17,7 @@ export function MainNav({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      <Link href="/">
+      <Link href="/dashboard">
         <Button
           variant="ghost"
           className={cn(

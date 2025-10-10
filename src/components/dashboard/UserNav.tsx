@@ -13,12 +13,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/server/login/actions";
+import Link from "next/link";
 
 type UserNavProps = {
   email: string;
+  displayName: string;
 };
 
-export function UserNav({ email }: UserNavProps) {
+export function UserNav({ email, displayName }: UserNavProps) {
   // const router = useRouter();
   const handleLogout = async () => {
     // const response = await fetch("/api/logout", {
@@ -37,14 +39,16 @@ export function UserNav({ email }: UserNavProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarFallback>{"C"}</AvatarFallback>
+            <AvatarFallback>
+              {displayName.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            {/* <p className="text-sm font-medium leading-none"></p> */}
+            <p className="text-sm font-medium leading-none">{displayName}</p>
             <p className="text-xs leading-none text-muted-foreground">
               {email}
             </p>
@@ -52,10 +56,12 @@ export function UserNav({ email }: UserNavProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Perfil
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href="/dashboard/profile">
+            <DropdownMenuItem>
+              Perfil
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem>
             Configuración
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>

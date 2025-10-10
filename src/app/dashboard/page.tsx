@@ -17,6 +17,7 @@ import { getCurrentUser } from "@/server/login/actions";
 export default async function DashboardPage() {
   // get user
   const currentUser = await getCurrentUser();
+  const displayName = currentUser?.user_metadata.display_name || "Unknown";
 
   return (
     <div className="hidden flex-col md:flex">
@@ -25,7 +26,10 @@ export default async function DashboardPage() {
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             <SearchNav />
-            <UserNav email={currentUser?.email || "n/a"} />
+            <UserNav
+              email={currentUser?.email || "n/a"}
+              displayName={displayName}
+            />
           </div>
         </div>
       </div>
