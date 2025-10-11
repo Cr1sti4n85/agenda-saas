@@ -1,3 +1,5 @@
+"use client";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -7,29 +9,61 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ContactModel } from "@/models/contactModel";
+import { getAllContacts } from "@/server/database/contacts";
+import { useEffect, useState } from "react";
 
-const ContactTable = () => {
+type ContactTableProps = {
+  id: string;
+};
+
+const ContactTable = ({ id }: ContactTableProps) => {
+  //   const contacts: ContactModel[] = await getAllContacts();
+  const [contacts, setContacts] = useState<ContactModel[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getContacts();
+  }, []);
+
+  async function getContacts() {
+    const contacts: ContactModel[] = await getAllContacts(id);
+    setContacts(contacts);
+    setLoading(false);
+  }
+
   return (
     <div>
       <Table>
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-[100px]">Id</TableHead>
+            <TableHead>Nombre</TableHead>
+            <TableHead>Apellido</TableHead>
+            <TableHead>Teléfono</TableHead>
+            <TableHead className="text-right">Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
+          {contacts.map((contact, index) => (
+            <TableRow key={index}>
+              <TableCell className="font-medium">{contact.id}</TableCell>
+              <TableCell>{contact.name}</TableCell>
+              <TableCell>{contact.last_name}</TableCell>
+              <TableCell>{contact.phone}</TableCell>
+              <TableCell className="text-right">{contact.email}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
+      {loading && (
+        <div className="w-full">
+          <Skeleton className="w-full h-10" />
+          <Skeleton className="w-full h-10 mt-2" />
+          <Skeleton className="w-full h-10 mt-2" />
+        </div>
+      )}
     </div>
   );
 };

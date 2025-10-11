@@ -8,6 +8,7 @@ import React from "react";
 const ContactPage = async () => {
   const currentUser = await getCurrentUser();
   const displayName = currentUser?.user_metadata.display_name || "Unknown";
+
   return (
     <div className="hidden flex-col md:flex">
       <div className="border-b">
@@ -25,7 +26,7 @@ const ContactPage = async () => {
       <main className="w-full space-y-4 p-8 pt-6 mx-auto">
         <h2>Contactos</h2>
         <hr />
-        <ContactTable />
+        <ContactTable id={currentUser?.id || ""} />
       </main>
     </div>
   );
