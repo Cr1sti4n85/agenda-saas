@@ -28,12 +28,14 @@ export function MainNav({
           Dashboard
         </Button>
       </Link>
-      <Link href="/contacts">
+      <Link href="/dashboard/contacts">
         <Button
           variant="ghost"
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
-            pathname === "/contacts" ? "text-primary" : "text-muted-foreground"
+            pathname === "/dashboard/contacts"
+              ? "text-primary"
+              : "text-muted-foreground"
           )}
         >
           Contactos
