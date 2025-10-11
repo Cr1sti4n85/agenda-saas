@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { updatePassword } from "@/server/updates/actions";
-import { createClient } from "@/utils/supabase/client";
+import { EmailOtpType } from "@supabase/supabase-js";
 
 export function ResetPasswordForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,14 +35,20 @@ export function ResetPasswordForm() {
       return;
     }
 
-    const supabase = createClient();
-    await supabase.auth.updateUser({
-      password,
-    });
-
-    toast.success("Contraseña modificada correctamente");
-    setIsLoading(false);
-    setShowLogin(true);
+    const { searchParams } = new URL(window.location.href);
+    const tokenHash = searchParams.get("token_hash");
+    const type = searchParams.get("type") as EmailOtpType | null;
+    if (tokenHash && type) {
+      try {
+        await updatePassword(password, tokenHash, type);
+        toast.success("Contraseña modificada correctamente");
+        setIsLoading(false);
+        setShowLogin(true);
+      } catch {
+        toast.error("Error al actualizar la contraseña  ");
+        setIsLoading(false);
+      }
+    }
   }
 
   return (

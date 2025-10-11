@@ -10,7 +10,7 @@ const ResetPassword = () => {
     const result = await requestResetPassword(host);
     if (result) {
       toast.success(
-        "Un correo ha sido enviado para reaizar el proceso de actualización"
+        "Un correo ha sido enviado para realizar el proceso de actualización"
       );
     } else {
       toast.error("No se pudo enviar el correo");

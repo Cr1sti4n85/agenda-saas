@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { EmailOtpType } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
 export const updateName = async (updatedName: string) => {
@@ -28,11 +29,20 @@ export const requestResetPassword = async (host: string) => {
   return false;
 };
 
-export const updatePassword = async (newPassword: string) => {
-  const supabase = await createClient();
-
-  await supabase.auth.updateUser({
-    password: newPassword,
-  });
-  supabase.auth.signOut();
+export const updatePassword = async (
+  newPassword: string,
+  tokenHash: string,
+  type: EmailOtpType
+) => {
+  if (tokenHash && type) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.verifyOtp({
+      type,
+      token_hash: tokenHash,
+    });
+    await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    supabase.auth.signOut();
+  }
 };
