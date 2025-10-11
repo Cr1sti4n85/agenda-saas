@@ -35,6 +35,14 @@ export default async function LoginPage() {
             Regístrate gratis
           </Link>
         </p>
+        <p className="text-center text-sm text-muted-foreground mt-6">
+          <Link
+            href="/reset"
+            className="text-foreground font-medium hover:underline"
+          >
+            Olvidé mi contraseña
+          </Link>
+        </p>
       </div>
     </div>
   );

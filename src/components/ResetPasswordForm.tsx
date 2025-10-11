@@ -11,6 +11,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { updatePassword } from "@/server/updates/actions";
+import { createClient } from "@/utils/supabase/client";
 
 export function ResetPasswordForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +35,11 @@ export function ResetPasswordForm() {
       return;
     }
 
-    await updatePassword(password);
+    const supabase = createClient();
+    await supabase.auth.updateUser({
+      password,
+    });
+
     toast.success("Contraseña modificada correctamente");
     setIsLoading(false);
     setShowLogin(true);
@@ -78,7 +83,7 @@ export function ResetPasswordForm() {
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
-          "Iniciar sesión"
+          "Actualizar contraseña"
         )}
       </Button>
 
