@@ -8,3 +8,11 @@ export interface ContactModel {
   age: number;
   user_id: string;
 }
+
+export interface ContactRequest {
+  name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  age: number;
+}
