@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -12,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { ContactModel } from "@/models/contactModel";
 import { getAllContacts } from "@/server/database/contacts";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DialogForm } from "./DialogForm";
 
 type ContactTableProps = {
@@ -20,18 +19,18 @@ type ContactTableProps = {
 };
 
 const ContactTable = ({ id }: ContactTableProps) => {
-  //   const contacts: ContactModel[] = await getAllContacts();
   const [contacts, setContacts] = useState<ContactModel[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function getContacts() {
-      const contacts: ContactModel[] = await getAllContacts(id);
-      setContacts(contacts);
-      setLoading(false);
-    }
-    getContacts();
+  const getContacts = useCallback(async () => {
+    const contacts: ContactModel[] = await getAllContacts(id);
+    setContacts(contacts);
+    setLoading(false);
   }, [id]);
+
+  useEffect(() => {
+    getContacts();
+  }, [getContacts]);
 
   return (
     <div>
@@ -65,7 +64,7 @@ const ContactTable = ({ id }: ContactTableProps) => {
           <Skeleton className="w-full h-10 mt-2" />
         </div>
       )}
-      <DialogForm />
+      <DialogForm getContacts={getContacts} />
     </div>
   );
 };

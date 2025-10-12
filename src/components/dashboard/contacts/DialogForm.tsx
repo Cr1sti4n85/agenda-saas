@@ -12,15 +12,49 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ContactRequest } from "@/models/contactModel";
+import { ContactCreationRequest } from "@/models/contactModel";
+import { addNewContact } from "@/server/database/contacts";
 import { useState } from "react";
+import { toast } from "sonner";
 
-export function DialogForm() {
-  const [contactInfo, setContactinfo] = useState<ContactRequest>(
-    {} as ContactRequest
-  );
+type DialogFormProps = {
+  getContacts: () => Promise<void>;
+};
+
+export function DialogForm({ getContacts }: DialogFormProps) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
+  const [contactInfo, setContactinfo] = useState<ContactCreationRequest>({
+    name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    age: 0,
+  });
+
+  const handleSaveContact = async () => {
+    setLoading(true);
+    try {
+      await addNewContact(contactInfo);
+      toast.success("Contacto creado correctamente");
+      await getContacts();
+    } catch {
+      toast.error("Error al crear el contacto");
+    } finally {
+      setLoading(false);
+      setShow(false);
+      setContactinfo({
+        name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        age: 0,
+      });
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={show} onOpenChange={setShow}>
       <form>
         <DialogTrigger asChild>
           <Button variant="outline">Crear nuevo contacto</Button>
@@ -107,7 +141,13 @@ export function DialogForm() {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button
+              disabled={loading}
+              type="button"
+              onClick={handleSaveContact}
+            >
+              {loading ? "Procesando..." : "Agregar contacto"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </form>
