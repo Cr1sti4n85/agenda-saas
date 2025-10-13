@@ -41,26 +41,15 @@ export function MainNav({
           Contactos
         </Button>
       </Link>
-      <Link href="/groups">
+      <Link href="/dashboard/favorites">
         <Button
           variant="ghost"
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
-            pathname === "/groups" ? "text-primary" : "text-muted-foreground"
+            pathname === "/favorites" ? "text-primary" : "text-muted-foreground"
           )}
         >
-          Grupos
-        </Button>
-      </Link>
-      <Link href="/settings">
-        <Button
-          variant="ghost"
-          className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            pathname === "/settings" ? "text-primary" : "text-muted-foreground"
-          )}
-        >
-          Configuración
+          Favoritos
         </Button>
       </Link>
     </nav>

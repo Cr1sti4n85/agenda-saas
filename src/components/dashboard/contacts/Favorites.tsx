@@ -21,7 +21,7 @@ type ContactTableProps = {
   id: string;
 };
 
-const ContactTable = ({ id }: ContactTableProps) => {
+const Favorites = ({ id }: ContactTableProps) => {
   const [contacts, setContacts] = useState<ContactModel[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -59,34 +59,30 @@ const ContactTable = ({ id }: ContactTableProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {contacts.map((contact, index) => (
-            <TableRow key={index}>
-              <TableCell>{contact.name}</TableCell>
-              <TableCell>{contact.last_name}</TableCell>
-              <TableCell>{contact.phone}</TableCell>
-              <TableCell>{contact.email}</TableCell>
-              <TableCell className="text-center">
-                {contact.is_favorite ? (
-                  <Star
-                    onClick={() => handleChangeFavorite(contact.id, false)}
-                    className="text-yellow-500 cursor-pointer"
-                  />
-                ) : (
-                  <Star
-                    onClick={() => handleChangeFavorite(contact.id, true)}
-                    className="text-gray-400 cursor-pointer"
-                  />
-                )}
-              </TableCell>
-              <TableCell className="flex items-center justify-center">
-                <DeleteContactDialog
-                  id={contact.id}
-                  name={contact.name}
-                  getcontacts={getContacts}
-                />
-              </TableCell>
-            </TableRow>
-          ))}
+          {contacts.map(
+            (contact, index) =>
+              contact.is_favorite && (
+                <TableRow key={index}>
+                  <TableCell>{contact.name}</TableCell>
+                  <TableCell>{contact.last_name}</TableCell>
+                  <TableCell>{contact.phone}</TableCell>
+                  <TableCell>{contact.email}</TableCell>
+                  <TableCell className="text-center">
+                    <Star
+                      onClick={() => handleChangeFavorite(contact.id, false)}
+                      className="text-yellow-500 cursor-pointer"
+                    />
+                  </TableCell>
+                  <TableCell className="flex items-center justify-center">
+                    <DeleteContactDialog
+                      id={contact.id}
+                      name={contact.name}
+                      getcontacts={getContacts}
+                    />
+                  </TableCell>
+                </TableRow>
+              )
+          )}
         </TableBody>
       </Table>
       {loading && (
@@ -101,4 +97,4 @@ const ContactTable = ({ id }: ContactTableProps) => {
   );
 };
 
-export default ContactTable;
+export default Favorites;
