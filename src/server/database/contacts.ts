@@ -57,3 +57,23 @@ export const updateContact = async (id: number, isFavorite: boolean) => {
   }
   return data;
 };
+
+export const deleteContactById = async (id: number) => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const userId = user?.id;
+
+  const { error } = await supabase
+    .from("contacts")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", userId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return;
+};

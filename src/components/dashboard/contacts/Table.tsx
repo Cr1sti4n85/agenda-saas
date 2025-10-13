@@ -13,8 +13,9 @@ import { ContactModel } from "@/models/contactModel";
 import { getAllContacts, updateContact } from "@/server/database/contacts";
 import { useCallback, useEffect, useState } from "react";
 import { DialogForm } from "./DialogForm";
-import { Star } from "lucide-react";
+import { Star, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import DeleteContactDialog from "./DeleteContact";
 
 type ContactTableProps = {
   id: string;
@@ -49,23 +50,22 @@ const ContactTable = ({ id }: ContactTableProps) => {
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Id</TableHead>
             <TableHead>Nombre</TableHead>
             <TableHead>Apellido</TableHead>
             <TableHead>Teléfono</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead className="text-center">Favorito</TableHead>
+            <TableHead>Favorito</TableHead>
+            <TableHead className="text-center">Eliminar</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {contacts.map((contact, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium">{contact.id}</TableCell>
               <TableCell>{contact.name}</TableCell>
               <TableCell>{contact.last_name}</TableCell>
               <TableCell>{contact.phone}</TableCell>
               <TableCell>{contact.email}</TableCell>
-              <TableCell className="flex items-center justify-center">
+              <TableCell className="text-center">
                 {contact.is_favorite ? (
                   <Star
                     onClick={() => handleChangeFavorite(contact.id, false)}
@@ -77,6 +77,13 @@ const ContactTable = ({ id }: ContactTableProps) => {
                     className="text-gray-400 cursor-pointer"
                   />
                 )}
+              </TableCell>
+              <TableCell className="flex items-center justify-center">
+                <DeleteContactDialog
+                  id={contact.id}
+                  name={contact.name}
+                  getcontacts={getContacts}
+                />
               </TableCell>
             </TableRow>
           ))}
