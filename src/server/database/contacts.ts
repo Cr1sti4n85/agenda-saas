@@ -36,3 +36,24 @@ export const addNewContact = async (contact: ContactCreationRequest) => {
 
   return result;
 };
+
+export const updateContact = async (id: number, isFavorite: boolean) => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const userId = user?.id;
+
+  const { data, error } = await supabase
+    .from("contacts")
+    .update({ is_favorite: isFavorite })
+    .eq("id", id)
+    .eq("user_id", userId)
+    .select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};

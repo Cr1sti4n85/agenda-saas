@@ -10,4 +10,5 @@ export interface ContactModel extends ContactCreationRequest {
   id: number;
   create_at: Date;
   user_id: string;
+  is_favorite: boolean;
 }

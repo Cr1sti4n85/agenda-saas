@@ -10,9 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ContactModel } from "@/models/contactModel";
-import { getAllContacts } from "@/server/database/contacts";
+import { getAllContacts, updateContact } from "@/server/database/contacts";
 import { useCallback, useEffect, useState } from "react";
 import { DialogForm } from "./DialogForm";
+import { Star } from "lucide-react";
+import { toast } from "sonner";
 
 type ContactTableProps = {
   id: string;
@@ -32,6 +34,15 @@ const ContactTable = ({ id }: ContactTableProps) => {
     getContacts();
   }, [getContacts]);
 
+  const handleChangeFavorite = async (id: number, isFavorite: boolean) => {
+    try {
+      await updateContact(id, isFavorite);
+      toast.success("Contacto actualizado correctamente");
+      await getContacts();
+    } catch {
+      toast.error("Error al actualizar el contacto");
+    }
+  };
   return (
     <div>
       <Table>
@@ -42,7 +53,8 @@ const ContactTable = ({ id }: ContactTableProps) => {
             <TableHead>Nombre</TableHead>
             <TableHead>Apellido</TableHead>
             <TableHead>Teléfono</TableHead>
-            <TableHead className="text-right">Email</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead className="text-center">Favorito</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -52,7 +64,20 @@ const ContactTable = ({ id }: ContactTableProps) => {
               <TableCell>{contact.name}</TableCell>
               <TableCell>{contact.last_name}</TableCell>
               <TableCell>{contact.phone}</TableCell>
-              <TableCell className="text-right">{contact.email}</TableCell>
+              <TableCell>{contact.email}</TableCell>
+              <TableCell className="flex items-center justify-center">
+                {contact.is_favorite ? (
+                  <Star
+                    onClick={() => handleChangeFavorite(contact.id, false)}
+                    className="text-yellow-500 cursor-pointer"
+                  />
+                ) : (
+                  <Star
+                    onClick={() => handleChangeFavorite(contact.id, true)}
+                    className="text-gray-400 cursor-pointer"
+                  />
+                )}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
